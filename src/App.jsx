@@ -40,9 +40,19 @@ class App extends Component {
         });
         return;
       }
+      image.total > PAGE_IMAGES
+        ? this.setState({ morePageImages: true })
+        : this.setState({ morePageImages: false });
       
-    });
-  }
+      if (pageNumber > 1) {
+        scrollDown();
+      }
+    })
+      .catch((error) =>
+        this.setState({ error: error.message, status: Status.REJECTED })
+      );
+  };
+  
 }
 
 function App() {
