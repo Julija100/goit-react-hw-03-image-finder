@@ -1,5 +1,9 @@
 
-import './App.css';
+import React, { Component } from "react";
+import Searchbar from './components/Searchbar';
+import ImageGallery from './components/ImageGallery';
+import Button from './components/Button';
+import { IMAGES_PER_PAGE, fetchImages } from './service/fetchImages';
 
 const Status = {
   IDLE: 'idle',
@@ -40,7 +44,7 @@ class App extends Component {
         });
         return;
       }
-      image.total > PAGE_IMAGES
+      image.total > IMAGES_PER_PAGE
         ? this.setState({ morePageImages: true })
         : this.setState({ morePageImages: false });
       
@@ -52,15 +56,39 @@ class App extends Component {
         this.setState({ error: error.message, status: Status.REJECTED })
       );
   };
-  
-}
+  onSearchFormSubmit = (searchQuery) => {
+    this.setState({ searchQuery, pageNumber: 1 });
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
-}
+    if (searchQuery === '') {
+      this.setState({
+        status: Status.REJECTED,
+        error: 'ups, You need enter yout request!',
+      });
+    }
+  };
+  onLoadMoreButtonClick = () => {
+    const { searchQuery, pageNumber } = this.state;
+    this.setState({
+      status: Status.PENDING,
+      pageNumber: pageNumber + 1,
+    });
+    this.getImages(searchQuery, pageNumber + 1);
+  };
+
+
+  render() {
+    const { images, morePageImages, status, error } = this.state;
+
+    return (
+      // <Searchbar>
+      //   <SearchForm></SearchForm>
+      // </Searchbar>
+      // <ImageGallery></ImageGallery>
+      // <Button></Button>
+    );
+  }
+  }
+
+
 
 export default App;
