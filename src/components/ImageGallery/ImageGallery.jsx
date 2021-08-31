@@ -2,7 +2,8 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import Modal from '../Modal/Modal';
-import StyledImageModal from '../Modal'
+import StyledImageModal from '../Modal/StyledImageModal'
+import StyledImageGallery from './StyledImageGallery';
 
 
 class ImageGallery extends Component {
