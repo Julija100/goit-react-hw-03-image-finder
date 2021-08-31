@@ -5,30 +5,35 @@ import { StyledOverlay, StyledModal } from "./StyledModal";
 const modalRoot = document.getElementById("modal-root");
 
 class Modal extends Component {
+  constructor(props) {
+    super(props);
+    this.onBackdropClick = this.onBackdropClick.bind(this);
+  }
+
   componentDidMount() {
-    window.addEventListener("keydown", this.okKeyDown);
+    window.addEventListener("keydown", this.onKeyDown);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.okKeyDown);
+    window.removeEventListener("keydown", this.onKeyDown);
   }
 
-  onKeyDown = (element) => {
-    if (element.key === "Escape") {
+  onKeyDown = (event) => {
+    if (event.key === "Escape") {
       this.props.onModalClose();
     }
   };
 
-  onBackdropClick = (element) => {
-    if (element.currentTurget === element.target) {
-      this.props.onModalClose();
-    }
+  onBackdropClick = () => {
+    this.props.onModalClose();
   };
 
   render() {
     return createPortal(
       <StyledOverlay onClick={this.onBackdropClick}>
-        <StyledModal> {this.props.children}</StyledModal>
+        <StyledModal onClick={(e) => e.stopPropagation()}>
+          {this.props.children}
+        </StyledModal>
       </StyledOverlay>,
       modalRoot
     );
