@@ -1,22 +1,24 @@
-import PropTypes from 'prop-types';
-import { StyledImageGalleryItem, StyledImageGalleryItemIage, } from './StyledImageGalleryItem';
-
+import PropTypes from "prop-types";
+import {
+  StyledImageGalleryItem,
+  StyledImageGalleryItemImage,
+} from "./StyledImageGalleryItem";
 
 const ImageGalleryItem = ({ imagesData, onClick }) => {
-    return (
-        <StyledImageGalleryItem>
-            <StyledImageGalleryItemIage
-                src={imagesData.webformatURL}
-                alt={imagesData.tags}
-                onClick={onClick}
-            />
-        </StyledImageGalleryItem>
-    );
+  return (
+    <StyledImageGalleryItem>
+      <StyledImageGalleryItemImage
+        src={imagesData.webformatURL}
+        alt={imagesData.tags}
+        onClick={onClick}
+      />
+    </StyledImageGalleryItem>
+  );
 };
 
 ImageGalleryItem.propTypes = {
-    imagesData: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
+  imagesData: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;
