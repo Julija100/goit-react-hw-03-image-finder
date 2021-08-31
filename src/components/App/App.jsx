@@ -1,9 +1,16 @@
 
 import React, { Component } from "react";
-import Searchbar from './components/Searchbar';
-import ImageGallery from './components/ImageGallery';
-import Button from './components/Button';
-import { IMAGES_PER_PAGE, fetchImages } from './service/fetchImages';
+import Searchbar from '../Searchbar';
+import ImageGallery from '../ImageGallery';
+import Button from '../Button';
+import { IMAGES_PER_PAGE, fetchImages } from '../../service/fetchImages';
+import { theme, StyledErrorMessage } from "../../StyledCommon";
+import Container from '../Container'
+import scrollDown from '../../utils/scrollDown';
+import SearchForm from '../SearchForm';
+import Section from '../Section';
+import showGalleryLoader from "../../utils/showGalleryLoader";
+
 
 const Status = {
   IDLE: 'idle',
@@ -44,7 +51,7 @@ class App extends Component {
         });
         return;
       }
-      image.total > IMAGES_PER_PAGE
+      images.total > IMAGES_PER_PAGE
         ? this.setState({ morePageImages: true })
         : this.setState({ morePageImages: false });
       
@@ -80,11 +87,30 @@ class App extends Component {
     const { images, morePageImages, status, error } = this.state;
 
     return (
-      // <Searchbar>
-      //   <SearchForm></SearchForm>
-      // </Searchbar>
-      // <ImageGallery></ImageGallery>
-      // <Button></Button>
+      <div>
+        <Searchbar>
+          <SearchForm getFormData={this.onSearchFormSubmit} />
+        </Searchbar>
+        <Section theme={theme}>
+          <Container>
+            {status === "pending" && showGalleryLoader()}
+            {status === "rejected" && (
+              <StyledErrorMessage>{error}</StyledErrorMessage>
+            )}
+            {status === "resolved" && (
+              <>
+                <ImageGallery images={images} />
+                {morePageImages && (
+                  <Button
+                    label="Load more"
+                    onLoadMoreBtnClick={this.onLoadMoreBtnClick}
+                  />
+                )}
+              </>
+            )}
+          </Container>
+        </Section>
+      </div>
     );
   }
   }
